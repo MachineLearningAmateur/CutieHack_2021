@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -6,7 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        title: 'Tic-Tac-Toe Demo',
+        title: 'CutieHack_2021',
         debugShowCheckedModeBanner: false,
         home: Center(
           child: Menu(),
@@ -46,7 +48,7 @@ class _MenuState extends State<Menu> {
       backgroundColor: Colors.orange,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'CutieHack2021',
           textAlign: TextAlign.center,
         ),
@@ -65,6 +67,22 @@ class _MenuState extends State<Menu> {
             label: 'Recipes')
             ]
       ),
+    );
+  }
+}
+
+class CameraApp extends StatefulWidget {
+  const CameraApp({ Key? key }) : super(key: key);
+
+  @override
+  _CameraAppState createState() => _CameraAppState();
+}
+
+class _CameraAppState extends State<CameraApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      
     );
   }
 }
