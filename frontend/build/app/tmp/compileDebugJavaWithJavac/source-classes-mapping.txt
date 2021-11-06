@@ -1,0 +1,4 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/example/cutie_hack_2021/BuildConfig.java
+ com.example.cutie_hack_2021.BuildConfig
