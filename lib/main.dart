@@ -50,20 +50,21 @@ class _MenuState extends State<Menu> {
           'CutieHack2021',
           textAlign: TextAlign.center,
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.green,
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
+            icon: Icon(Icons.inventory), 
+            label: 'Inventory'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business'),
+            icon: Icon(Icons.camera),
+            label: 'Camera'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book), 
+            label: 'Recipes')
             ]
       ),
     );
   }
-
 }
