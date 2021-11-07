@@ -4,57 +4,51 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final cameras = await availableCameras();
-  final firstCamera = cameras.first;
-  runApp(MyApp(camera: cameras.first));
+  runApp(const MyApp());
 }
 
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-class MyApp extends StatelessWidget { 
-  MyApp({Key? key, required this.camera}) : super(key: key);
-  CameraDescription camera;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'CutieHack_2021',
-        debugShowCheckedModeBanner: false,
-        home: TakePictureScreen(camera: camera),
+    return const MaterialApp(
+      title: 'CutieHack_2021',
+      debugShowCheckedModeBanner: false,
+      home: Menu(),
     );
   }
 }
 
 class Menu extends StatefulWidget {
-  Menu({Key? key, required this.camera}) : super(key: key);
-  CameraDescription camera;
+  const Menu({Key? key}) : super(key: key);
+
   @override
-  _MenuState createState() => _MenuState(camera: camera);
+  _MenuState createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> {
-  _MenuState({required this.camera});
-  CameraDescription camera;
   int _selectedIndex = 0;
-  static const TextStyle styleChoice = TextStyle(fontSize: 30, fontWeight:  FontWeight.bold);
+
+  static const TextStyle styleChoice =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Inventory',
       style: styleChoice,
-      ),
-    Text('te'),
-    Text('Index 2: Recipes',
-      style: styleChoice
-      ),
+    ),
+    TakePictureScreen(),
+    Text('Index 2: Recipes', style: styleChoice),
   ];
-  
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,34 +61,27 @@ class _MenuState extends State<Menu> {
         ),
         backgroundColor: Colors.green,
       ),
-      body: Center(child: _widgetOptions.elementAt(_selectedIndex),),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.inventory), 
-            label: 'Inventory'),
+              icon: Icon(Icons.inventory), label: 'Inventory'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.camera_alt),
-            label: 'Camera'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book), 
-            label: 'Recipes')
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.amber[800],
-            onTap: _onItemTapped,
+              icon: Icon(Icons.camera_alt), label: 'Camera'),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Recipes')
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
     );
   }
 }
 
 class TakePictureScreen extends StatefulWidget {
-  const TakePictureScreen({
-    Key? key,
-    required this.camera,
-  }) : super(key: key);
-
-  final CameraDescription camera;
+  const TakePictureScreen({Key? key}) : super(key: key);
 
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
@@ -107,17 +94,25 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   void initState() {
     super.initState();
-    // To display the current output from the Camera,
-    // create a CameraController.
-    _controller = CameraController(
-      // Get a specific camera from the list of available cameras.
-      widget.camera,
-      // Define the resolution to use.
-      ResolutionPreset.medium,
-    );
 
-    // Next, initialize the controller. This returns a Future.
-    _initializeControllerFuture = _controller.initialize();
+    WidgetsFlutterBinding.ensureInitialized();
+    _initializeControllerFuture = availableCameras()
+        .then((cameras) => cameras.first)
+        .then((camera) =>
+            {_controller = CameraController(camera, ResolutionPreset.medium)})
+        .then((_) => _controller.initialize());
+
+    // // To display the current output from the Camera,
+    // // create a CameraController.
+    // _controller = CameraController(
+    //   // Get a specific camera from the list of available cameras.
+    //   widget.camera,
+    //   // Define the resolution to use.
+    //   ResolutionPreset.medium,
+    // );
+
+    // // Next, initialize the controller. This returns a Future.
+    // _initializeControllerFuture = _controller.initialize();
   }
 
   @override
