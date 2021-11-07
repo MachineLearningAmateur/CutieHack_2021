@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'CutieHack_2021',
+      title: 'sh | bar',
       debugShowCheckedModeBanner: false,
       home: Menu(),
     );
@@ -35,10 +34,7 @@ class _MenuState extends State<Menu> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Inventory',
-      style: styleChoice,
-    ),
+    Ingredients(),
     TakePictureScreen(),
     Text('Index 2: Recipes', style: styleChoice),
   ];
@@ -56,7 +52,7 @@ class _MenuState extends State<Menu> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'CutieHack2021',
+          'sh | bar',
           textAlign: TextAlign.center,
         ),
         backgroundColor: Colors.green,
@@ -125,7 +121,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Take a picture')),
+      appBar: AppBar(title: const Center(child: Text("Take a picture"))),
       // You must wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner until the
       // controller has finished initializing.
@@ -153,7 +149,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             // Attempt to take a picture and get the file `image`
             // where it was saved.
             final image = await _controller.takePicture();
-
+            print(image.path);
             // If the picture was taken, display it on a new screen.
             await Navigator.of(context).push(
               MaterialPageRoute(
@@ -176,6 +172,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 }
 
 class DisplayPictureScreen extends StatelessWidget {
+  //should append list to inventory
   final String imagePath;
 
   const DisplayPictureScreen({Key? key, required this.imagePath})
@@ -183,11 +180,43 @@ class DisplayPictureScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture')),
-      // The image is stored as a file on the device. Use the `Image.file`
+    return const Scaffold(
+      // The image is stored as a file on the device. Use txhe `Image.file`
       // constructor with the given path to display the image.
-      body: Image.file(File(imagePath)),
+      body: Center(
+          child: Text(
+        'Loading... ',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
+        textAlign: TextAlign.center,
+      )),
     );
+  }
+}
+
+class Ingredients extends StatefulWidget {
+  const Ingredients({Key? key}) : super(key: key);
+
+  @override
+  _IngredientsState createState() => _IngredientsState();
+}
+
+class _IngredientsState extends State<Ingredients> {
+  List<String> inventory = ['apple', 'eggs', 'cheese', 'milk', 'butter', 'corn', 'cream', 'pasta', 'kiwi', 'grapes', 'orange'];
+
+  @override
+  Widget build(BuildContext context) {
+    inventory.sort();
+    return ListView.builder(
+      itemCount: inventory.length, 
+      itemBuilder: (context, index) {
+        final ingredient = inventory[index];
+
+        return ListTile(
+          title: Center(child: Text(ingredient)),
+          tileColor: Colors.white,
+          contentPadding: const EdgeInsets.all(10),
+          
+        );
+      });
   }
 }
