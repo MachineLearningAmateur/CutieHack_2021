@@ -5,12 +5,6 @@ import 'package:http/http.dart';
 
 const urlPrefix = 'https://jsonplaceholder.typicode.com';
 
-// static const env_url = "https://api.veryfi.com/";
-// static const client_id = "vrfSKS0w86oPtUipeNmncWr4eMBNsDjugmcuNus";
-
-// static const username = "mlee212";
-// static const api_key = "8688160f63121472f1d59a8497c5eb93";
-
 //----------------------------------------------------------------
 
 class HomePageManager {
